@@ -247,22 +247,6 @@ export default function UserForm(props) {
                   fullWidth
                   autoComplete="shipping address-level2"
                 />
-                </Grid>
-                <Grid item xs={12}>
-                <FormControl fullWidth>
-                    <InputLabel required>User Type</InputLabel>
-                    <Select
-                    required
-                    value={userType}
-                    onChange={handleUserTypeChange}
-                    label="User Type"
-                    >
-                    <MenuItem value="Doctor">Doctor</MenuItem>
-                    <MenuItem value="Patient">Patient</MenuItem>
-                    <MenuItem value="Caregiver">Caregiver</MenuItem>
-                    </Select>
-                </FormControl>
-                </Grid>
                 <Grid item xs={12} sm={6}>
                 <Button
                   type="button"
@@ -279,7 +263,8 @@ export default function UserForm(props) {
                   🎤
                 </Button>
               </Grid>
-              <Grid item xs={12} sm={6}>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   id="cpassword"
@@ -305,6 +290,22 @@ export default function UserForm(props) {
                   🎤
                 </Button>
               </Grid>
+                <Grid item xs={12}>
+                <FormControl fullWidth>
+                    <InputLabel required>User Type</InputLabel>
+                    <Select
+                    required
+                    value={userType}
+                    onChange={handleUserTypeChange}
+                    label="User Type"
+                    >
+                    <MenuItem value="Doctor">Doctor</MenuItem>
+                    <MenuItem value="Patient">Patient</MenuItem>
+                    <MenuItem value="Caregiver">Caregiver</MenuItem>
+                    </Select>
+                </FormControl>
+                </Grid>
+              
             </React.Fragment>
           ) : ''}
         </Grid>

@@ -33,7 +33,7 @@ const DonationForm = () => {
 
     try {
       // Call your server to create a Checkout Session
-      const response = await fetch('http://localhost:4000/medicinereminder/create-checkout-session', {
+      const response = await fetch('https://mediconereminder-api.onrender.com/medicinereminder/create-checkout-session', {
         method: 'POST',
         mode: 'cors',
         headers: {
