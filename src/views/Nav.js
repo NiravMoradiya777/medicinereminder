@@ -6,8 +6,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import HomeIcon from "@mui/icons-material/Home";
-import AboutUsIcon from "@mui/icons-material/Info";
-import ContactUsIcon from "@mui/icons-material/Contacts";
+import LoginIcon from "@mui/icons-material/Login";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import MedicationIcon from "@mui/icons-material/Medication";
+import PatientIcon from "@mui/icons-material/Accessible";
+import CaregiverIcon from "@mui/icons-material/HelpCenter";
 import logoImg from "../assets/Images/logo-no-background.png";
 import { Container } from "@mui/system";
 import CustomButton from "../theme/components/CustomButton";
@@ -69,50 +72,6 @@ export const Navbar = () => {
 
     setMobileMenu({ ...mobileMenu, [anchor]: open });
   };
-
-  const list = (anchor) => (
-    <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      {user ? (
-        <List>
-          {["Medication", "Caregiver"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton onClick={handleMedicationClick}>
-                  <ListItemIcon>
-                    {index === 0 && <FeaturedPlayListIcon />}
-                    {index === 1 && <MiscellaneousServicesIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
-        </List>
-      ) : (
-        <List>
-          {["Home", "AboutUs", "Contact"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index === 0 && <HomeIcon />}
-                    {index === 1 && <AboutUsIcon />}
-                    {index === 2 && <ContactUsIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
-        </List>
-      )}
-    </Box>
-  );
 
   const NavLink = styled(Typography)(({ theme }) => ({
     fontSize: "14px",
@@ -198,6 +157,98 @@ export const Navbar = () => {
     navigate("/doctor/patient");
   };
 
+  const homeClick = () => {
+    navigate("/");
+  };
+
+  const loginClick = () => {
+    navigate("/login");
+  };
+
+  const list = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+
+      {user && user.userType ? (
+        <div>
+          {user.userType === "Patient" && (
+
+            <List>
+              {["Dashboard", "Medication", "Caregiver"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index === 0 && <DashboardIcon onClick={handleDashboardClick} />}
+                        {index === 1 && <MedicationIcon onClick={handleMedicationClick} />}
+                        {index === 2 && <CaregiverIcon onClick={handleCaregiverClick} />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          )}
+          {user.userType === "Caregiver" && (
+            <List>
+              {["Dashboard", "Patients"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index === 0 && <DashboardIcon onClick={handleCaregiverDashboardClick} />}
+                        {index === 1 && <PatientIcon onClick={handleCaregiverPatientsClick} />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          )}
+          {user.userType === "Doctor" && (
+            <List>
+              {["Dashboard", "Patients"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index === 0 && <DashboardIcon onClick={handleDoctorDashboardClick} />}
+                        {index === 1 && <PatientIcon onClick={handleDoctorPatientClick} />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          )}
+        </div>
+      ) : (
+        <List>
+          {["Home", "Login"].map(
+            (text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index === 0 && <HomeIcon onClick={homeClick} />}
+                    {index === 1 && <LoginIcon onClick={loginClick} />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
+        </List>
+      )}
+    </Box>
+  );
+
   return (
     <NavbarContainer>
       <Box
@@ -243,16 +294,14 @@ export const Navbar = () => {
                 <NavLink variant="body2"></NavLink>
               </NavbarLinksBox>
             ) : (
-            <NavbarLinksBox>
-              <NavLink variant="body2">Home</NavLink>
-              <NavLink variant="body2">AboutUs</NavLink>
-              <NavLink variant="body2">Contact</NavLink>
-              <NavLink variant="body2" onClick={handleDonationClick} >Donation</NavLink>
-              <NavLink variant="body2"></NavLink>
-            </NavbarLinksBox>
+              <NavbarLinksBox>
+                <NavLink variant="body2" onClick={homeClick}>Home</NavLink>
+                <NavLink variant="body2" onClick={handleDonationClick} >Donation</NavLink>
+                <NavLink variant="body2"></NavLink>
+              </NavbarLinksBox>
+            )
           )
-        )
-      )}
+        )}
       </Box>
 
       <Box
